@@ -12,3 +12,7 @@
 service.bat install tomcat7 입력 
 (삭제: service.bat. remove tomcat7)
 그 후 tomcat7w.exe를 실행한다. 
+###접속
+  url:8088/http://127.0.0.1:8088/MappingManager4/jsp/MappingManager.jsp
+ex) http://127.0.0.1:8088/MappingManager4/jsp/MappingManager.jsp
+
