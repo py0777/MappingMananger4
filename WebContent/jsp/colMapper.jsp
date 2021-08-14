@@ -11,8 +11,7 @@
 <title>ColMapper</title>
 </head>
 <body>
-  
-  
+   
   
 <%
 String result = null;
