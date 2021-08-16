@@ -5,19 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
-import nexcore.framework.core.data.RecordSet;
-import py0777.framework.core.data.IRecord;
-import py0777.framework.core.data.IRecordSet;
-import py0777.framework.core.data.Record;
 import py0777.sql.format.valueobject.PySqlToken;
 import py0777.sql.format.valueobject.SqlLineToken;
-import py0777.sql.format.PySqlFormatter;
-import py0777.sql.format.PySqlFormatterException;
-import py0777.sql.format.PySqlParser;
-import py0777.sql.format.PySqlRule;
+
+/*20190111 예약어 포멧팅에 MINUS 추가함*/
 
 public class PySqlFormatter
 {
@@ -424,7 +417,10 @@ public class PySqlFormatter
 					insertReturnAndIndent(argList, list, index);
 				}
 
-				if ((token.getString().equalsIgnoreCase("UNION")) || (token.getString().equalsIgnoreCase("INTERSECT")) || (token.getString().equalsIgnoreCase("EXCEPT")))
+				if ((token.getString().equalsIgnoreCase("UNION")) 
+						|| (token.getString().equalsIgnoreCase("INTERSECT")) 
+						|| (token.getString().equalsIgnoreCase("EXCEPT"))
+						|| (token.getString().equalsIgnoreCase("MINUS")))
 				{
 
 					insertReturnAndIndent(argList, list, index);

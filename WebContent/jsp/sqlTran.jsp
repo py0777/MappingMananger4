@@ -9,7 +9,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SQL TRAN</title>
-
+<script type="text/javascript">
+	function allChk(obj){
+		var chkObj = document.getElementsByName("cb");
+		  var rowCnt = chkObj.length -1;
+		  var check = obj.checked;
+		  if(check){
+			  for(var i =0; i<= rowCnt; i++){
+				  if(chkObj[i].type == "checkbox"){
+					  chkObj[i].checked = true;
+				  }
+			  }
+		  }else{
+			  for(var i = 0 ; i <= rowCnt; i++){
+				  if(chkObj[i].type == "checkbox"){
+					  chkObj[i].checked = false;
+				  }
+			  }
+		  }	
+	}
+  
 </script>
 </head>
 <body>
@@ -31,6 +50,7 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 	String sqlFormatYn = request.getParameter("sqlFormatYn");
 	
 	IDataSet requestData = new DataSet();
+	requestData.putField("INQ_CON", request.getParameter("INQ_CON"));
 	requestData.putField("QUERY", request.getParameter("asisSql"));
 	
 	if("Y".equals(commentYn))
@@ -71,10 +91,13 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 
 %>
 <form action="sqlTran.jsp" id ="myForm" name="myForm" method="POST" >
+	<lable for="INQ_CON"><strong>조회기준 : </strong></lable>
+	<input type=radio name="INQ_CON" value="1" <%if("1".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />TOBE->ASIS
+	<input type=radio name="INQ_CON" value="2" <%if("2".equals(request.getParameter("INQ_CON"))|| StringUtils.isEmpty(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS->TOBE
+<br />
 <label for="commentYn"></label><input type="checkbox" name="commentYn" value="Y" <%if("Y".equals(request.getParameter("commentYn"))){%>checked <%}%> >컬럼주석달기       </lable>
 
 <label for="sqlFormatYn"></label><input type="checkbox" name="sqlFormatYn" value="Y" <%if( "Y".equals(request.getParameter("sqlFormatYn"))){%>checked <%}%> >SQL포멧맞추기</lable>
-<br />
 
 <input type="submit" value="변환" <% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ resultMessage ="";}%> >
 <br />
@@ -88,7 +111,9 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 <TEXTAREA name="tobeSql" rows="20" style="WIDTH: 46%">
 <%=result%>
 </textarea>
-
+<br />
+<%=resultMessage %>
+<br /><h4><font color ="blue"><strong >※ SQL변환은 테이블 매핑이 1:1인 경우 정확하고,- 1:N, N:1인 경우 정확하지 않을수 있습니다. 아래 조회된 대상 테이블 중 불필요 테이블은 선택해지 후 다시 조회해보세요.</strong></font></h4>
 <table width="99%" border="1" cellpadding="4" cellspacing ="0" style="border-collapse:collapse;">
 		<%
 		  if(rsTblCnt > 0){
@@ -97,7 +122,7 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 			<td bgcolor="green" colspan="5"><strong>대상테이블</strong></td>
 		</tr>
 		<tr>
-		    <td bgcolor="yellow"><strong>선택해지</strong></td>			
+		    <td bgcolor="yellow"><input id="allCheck" type="checkbox" onclick="allChk(this);" checked><strong>선택해지</strong></td>			
 			<td style="border:1px gray soild" bgcolor="yellow"><strong>TOBE테이블</strong></td>
 			<td bgcolor="yellow"><strong>TOBE테이블한글</strong></td>			   
 			<td bgcolor="yellow"><strong>ASIS테이블</strong></td>  	
@@ -110,7 +135,7 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 	for(int i = 0; i < rsTblCnt ; i++){		
 %>
 			<tr> 
-			    <td><input type="checkbox" id="cb" name="cb" value=<%= resultTblRs.get(i, "ATBL") %> checked></td>
+			    <td width="90"><input type="checkbox" id="cb" name="cb" value=<%= resultTblRs.get(i, "ATBL") %> checked></td>
 				<td><name=atbl ><%=resultTblRs.get(i, "ATBL")%></td>     <!- tobe테이블      ->
 				<td><%=resultTblRs.get(i, "ATBLNM")%></td>  <!- tobe테이블한글  ->
 				<td><name=tbl><%=resultTblRs.get(i, "TBL")%></td>  <!- asis테이블      ->
@@ -158,8 +183,7 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 	}
 %>
 		</table>
-		<%=resultMessage %>
 	</form>
-	<br /><h3><font color ="blue"><strong >※ SQL변환은 1:N, N:1인 경우 조회된 대상 테이블에서 선택해지 후 다시 조회해보세요.</strong></font></h3>
+	
 </body>
 </html>

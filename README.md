@@ -16,3 +16,14 @@ service.bat install tomcat7 입력
   url:8088/http://127.0.0.1:8088/MappingManager4/jsp/MappingManager.jsp
 ex) http://127.0.0.1:8088/MappingManager4/jsp/MappingManager.jsp
 
+### 오라클 테스트DB 생성
+/*사용자생성*/
+CREATE USER IMCUSR
+IDENTIFIED BY 1
+DEFAULT TABLESPACE USERS 
+TEMPORARY TABLESPACE TEMP;
+
+/*권한주기*/
+GRANT CONNECT TO IMCUSR;
+GRANT RESOURCE TO IMCUSR;
+GRANT DBA TO IMCUSR;

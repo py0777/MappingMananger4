@@ -11,7 +11,6 @@
 <title>ColMapper</title>
 </head>
 <body>
-   
   
 <%
 String result = null;
@@ -23,14 +22,18 @@ int rsTblCnt = 0;
 String resultMessage = "";
 request.setCharacterEncoding("UTF-8");/* 한글깨짐 현상 없애기 위함*/
 
-if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TBL"), "null"))
-	||	!"null".equals(StringUtils.nvl(request.getParameter("IN_COL"), "null"))){
+if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TTBL"), "null"))
+	||	!"null".equals(StringUtils.nvl(request.getParameter("IN_TCOL"), "null"))
+	||  !"null".equals(StringUtils.nvl(request.getParameter("IN_ATBL"), "null"))
+	||	!"null".equals(StringUtils.nvl(request.getParameter("IN_ACOL"), "null"))){
 	
 	IDataSet requestData = new DataSet();
 	
-	requestData.putField("IN_TBL", request.getParameter("IN_TBL").toUpperCase());
-	requestData.putField("IN_COL", request.getParameter("IN_COL").toUpperCase());
-	requestData.putField("INQ_CON", request.getParameter("INQ_CON"));
+	requestData.putField("IN_TTBL", request.getParameter("IN_TTBL").toUpperCase());
+	requestData.putField("IN_TCOL", request.getParameter("IN_TCOL").toUpperCase());
+	requestData.putField("IN_ATBL", request.getParameter("IN_ATBL").toUpperCase());
+	requestData.putField("IN_ACOL", request.getParameter("IN_ACOL").toUpperCase());
+	//requestData.putField("INQ_CON", request.getParameter("INQ_CON"));
 	
 	ColInq coli = new ColInq();
 	
@@ -51,19 +54,23 @@ if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TBL"), "null"))
 %>
 <form action="colMapper.jsp" method="POST">
 <p>
-	<lable for="INQ_CON"><strong>조회조건 : </strong></lable>
-	<input type=radio name="INQ_CON" value="1" <%if("1".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />TOBE기준
+	<!--<lable for="INQ_CON"><strong>조회조건 : </strong></lable>-->
+	<!-- <input type=radio name="INQ_CON" value="1" <%if("1".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />TOBE기준
 	<input type=radio name="INQ_CON" value="2" <%if("2".equals(request.getParameter("INQ_CON"))|| StringUtils.isEmpty(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS기준	
+	-->
 </p>
-<label ><strong>테이블명  : </strong></lable>
-<input name ="IN_TBL" type ="text" value =<%=request.getParameter("IN_TBL")%>>
-<label ><strong>컬럼명  : </strong></lable>
-<input name ="IN_COL" type ="text" value =<%=request.getParameter("IN_COL")%>>
+<label ><strong>TOBE테이블명  : </strong></lable>
+<input name ="IN_TTBL" type ="text" value =<%=request.getParameter("IN_TTBL")%>>
+<label ><strong>TOBE컬럼명  : </strong></lable>
+<input name ="IN_TCOL" type ="text" value =<%=request.getParameter("IN_TCOL")%>>
+<label ><strong>ASIS테이블명  : </strong></lable>
+<input name ="IN_ATBL" type ="text" value =<%=request.getParameter("IN_ATBL")%>>
+<label ><strong>ASIS컬럼명  : </strong></lable>
+<input name ="IN_ACOL" type ="text" value =<%=request.getParameter("IN_ACOL")%>>
 <input type="submit" value="조회" >
 <br />
 <label >※ 테이블또는 컬럼 중 한개 이상 입력하셔야 합니다.</lable>
-
-<br />
+<br /><%=resultMessage %>
 		<table width="80%" border="1" cellpadding="4" cellspacing ="0" style="border-collapse:collapse;">
 		<%
 		  if(rsTblCnt > 0){
@@ -125,7 +132,8 @@ if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TBL"), "null"))
 			<td bgcolor="yellow"><strong>ASIS TYPE</strong></td>
 			<td bgcolor="yellow"><strong>ASIS길이1</strong></td>			
 			<td bgcolor="yellow"><strong>ASIS_PK</strong></td>
-			<td bgcolor="yellow"><strong>MOVE_RULE</strong></td>	
+			<td bgcolor="yellow"><strong>MOVE_RULE</strong></td>
+			<td bgcolor="yellow"><strong>이행전환룰</strong></td>	
 			<td bgcolor="yellow"><strong>MOVE_SQL</strong></td>	
 			<td bgcolor="yellow"><strong>업무담당자</strong></td>
 			<!--<td bgcolor="yellow"><strong>UPDATE_DT</strong></td>-->	
@@ -157,15 +165,16 @@ if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TBL"), "null"))
 				<td><%=colRs.get(i, "A_LENGTH1")%></td>
 				<td><%=colRs.get(i, "A_PK")%></td>
 				<td><%=colRs.get(i, "MOVE_RULE")%></td>
+				<td><%=colRs.get(i, "DEFAULT_VL")%></td>
 				<td><%=colRs.get(i, "MOVE_SQL")%></td>
 				<td><%=colRs.get(i, "업무담당자")%></td>
-				<!--<td><%=colRs.get(i, "UPDATE_DT")%></td>-->
+				<!--<td><%=colRs.get(i, "ALT_DT")%></td>-->
 			</tr>
 <%	
 }
 %>
 		</table>
-		<%=resultMessage %>
+		
 	</form>
 </body>
 </html>

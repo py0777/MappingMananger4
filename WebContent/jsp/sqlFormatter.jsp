@@ -10,11 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SQL FORMATER</title>
-
-</script>
 </head>
-<body>
-  
+
 <%
 String result = null;
 int resultRsCnt = 0;
@@ -24,10 +21,22 @@ String resultMessage = "";
 
 request.setCharacterEncoding("UTF-8");/* 한글깨짐 현상 없애기 위함*/
 if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
+
+	String camelYn = request.getParameter("camelYn");
 	
 	IDataSet requestData = new DataSet();
 	requestData.putField("QUERY", request.getParameter("asisSql"));
-		
+	
+	System.out.println("★★★★"+camelYn);
+	
+	if("Y".equals(camelYn))
+	{
+		requestData.putField("CAMEL_YN", "Y");	
+	}else
+	{
+		requestData.putField("CAMEL_YN", "N");
+	}
+	
 	SqlFormatter sft = new SqlFormatter();
 	
 	IDataSet responseData = sft.sqlFormatter(requestData);
@@ -41,13 +50,16 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 }
 
 %>
-<form action="sqlFormatter.jsp" id ="myForm" name="myForm" method="POST" >
-<h3><font color ="blue"><strong >1. SQL 포멧을 자동으로 맞춰주고 있습니다.</strong></font></h3>
-<h3><font color ="blue"><strong >2. 용어사전과 연동시 표준용어로 자동주석을 달아줄 수 있습니다.</strong></font></h3>
-<input type="submit" value="SQL 포멧팅 변환" <% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ resultMessage ="";}%> >
-<br />
 
-<br />
+<body >
+  
+
+<form action="sqlFormatter.jsp" id ="myForm" name="myForm" method="POST" >
+<h3><font color ="blue"><strong >1. SQL 포멧을 자동으로 맞춰주고 있습니다. ※ SQL '('  ,  ')'괄호의 갯수가 맞지 않을 경우 자동포맷팅이 되지 않습니다.</strong></font></h3>
+<!-- <h3><font color ="blue"><strong >2. 컬럼매핑정의서와 연동해 주석을 달아줄 수 있습니다.</strong></font></h3>-->
+<input type="submit" value="SQL 포멧팅 변환" <% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ resultMessage ="";}%> >
+<!-- <label for="camelYn"></label><input type="checkbox" name="camelYn" value="Y" <%if("Y".equals(request.getParameter("camelYn"))){%>checked <%}%> >Alias 뒤 카멜표기 </lable> -->
+<br /><%=resultMessage %><br />
 <label for="asisSql"><strong >BEFORE SQL</strong></label>
 <br />
 <TEXTAREA name="asisSql" rows="20" style="WIDTH: 92%" id="asisSql">
@@ -59,10 +71,10 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 <label for=tobeSql><strong >AFTER SQL</strong></label>
 <br />
 <TEXTAREA name="tobeSql" rows="20" style="WIDTH: 92%" id="tobeSql">
+
 <%=result%>
-</textarea>
-	<br /><%=resultMessage %>
+</textarea>	
 	</form>
-	<br /><h3><font color ="blue"><strong >※ SQL '('  ,  ')'괄호의 갯수가 맞지 않을 경우 자동포맷팅이 되지 않습니다.</strong></font></h3>
+	
 </body>
 </html>

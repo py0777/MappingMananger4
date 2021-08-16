@@ -15,6 +15,7 @@
 <input type="submit" name = "sqlTran"  value ="CODE_MAPPING" >
 <input type="submit" name = "sqlTran"  value ="COL_MAPPING" >
 <input type="submit" name = "sqlTran"  value ="SQL_FORMMAT" >
+<input type="submit" name = "sqlTran"  value ="VALID_SQL" >
 </br>
 <table width="80%" border="1"></table>
 
@@ -38,7 +39,10 @@ else if("COL_MAPPING".equals(request.getParameter("sqlTran")))
 else if("SQL_FORMMAT".equals(request.getParameter("sqlTran")))
 {%>
 	<iframe src ="sqlFormatter.jsp" frameborder="0" bordercolor ="" marginwidth ="0" width ="100%" height ="700" scolling="no" align="" name="ifr" hspace="0" vspace="0"></iframe>
-
+<%}
+else if("VALID_SQL".equals(request.getParameter("sqlTran")))
+{%>
+	<iframe src ="validSql.jsp" frameborder="0" bordercolor ="" marginwidth ="0" width ="100%" height ="700" scolling="no" align="" name="ifr" hspace="0" vspace="0"></iframe>
 <%}else{%>
 	<iframe src ="sqlTran.jsp" frameborder="0" bordercolor ="" marginwidth ="0" width ="100%" height ="700" scolling="no" align="" name="ifr" hspace="0" vspace="0"></iframe>
 

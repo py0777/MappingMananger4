@@ -66,18 +66,29 @@ import org.apache.log4j.Logger;
 			Date d = gc.getTime();
 			today = sdformat.format(d);
 			
-			if( requestData.getField("IN_TBL").isEmpty() || "NULL".equals(requestData.getField("IN_TBL")))
+			if( requestData.getField("IN_ATBL").isEmpty() || "NULL".equals(requestData.getField("IN_ATBL")))
 			{
-				requestData.putField("IN_TBL", "%");
+				requestData.putField("IN_ATBL", "%");
 			}
 			
-			if( requestData.getField("IN_COL").isEmpty() || "NULL".equals(requestData.getField("IN_COL")))
+			if( requestData.getField("IN_ACOL").isEmpty() || "NULL".equals(requestData.getField("IN_ACOL")))
 			{
-				requestData.putField("IN_COL", "%");
+				requestData.putField("IN_ACOL", "%");
+			}
+			if( requestData.getField("IN_TTBL").isEmpty() || "NULL".equals(requestData.getField("IN_TTBL")))
+			{
+				requestData.putField("IN_TTBL", "%");
+			}
+			
+			if( requestData.getField("IN_TCOL").isEmpty() || "NULL".equals(requestData.getField("IN_TCOL")))
+			{
+				requestData.putField("IN_TCOL", "%");
 			}
 			/*입력값 null 체크*/
 			if(		"%".equals(requestData.getField("IN_TBL"))
-				&&  "%".equals(requestData.getField("IN_COL"))	)
+				&&  "%".equals(requestData.getField("IN_COL"))
+				&&  "%".equals(requestData.getField("IN_TBL"))
+				&&  "%".equals(requestData.getField("IN_COL")))
 			{
 				rtnMsg = "테이블 또는 컬럼을 입력하세요.";
 				responseData.putField("rtnMsg", today + " " + rtnMsg);

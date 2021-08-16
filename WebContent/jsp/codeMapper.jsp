@@ -12,7 +12,6 @@
 </head>
 <body>
   
-  
 <%
 String result = null;
 
@@ -48,14 +47,14 @@ if(!StringUtils.isEmpty(request.getParameter("INPUT"))
 	<input type=radio name="INQ_CON" value="1" <%if("1".equals(request.getParameter("INQ_CON"))  || StringUtils.isEmpty(request.getParameter("INQ_CON"))){%>checked<%}%>/>TOBE영문명
 	<input type=radio name="INQ_CON" value="2" <%if("2".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />TOBE한글명
 	<input type=radio name="INQ_CON" value="3" <%if("3".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS영문명
-	<input type=radio name="INQ_CON" value="4" <%if("4".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS한글명
+	<!-- <input type=radio name="INQ_CON" value="4" <%if("4".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS한글명 -->
 </p>
 <label ><strong>INPUT  : </strong></lable>
 <input name ="INPUT" type ="text" value =<%=request.getParameter("INPUT")%>>
 <input type="submit" value="조회" >
 <br />
-<label >※ TOBE영문코드명,TOBE한글코드명, ASIS코드영문명, ASIS코드한글명 들로 LIKE 조회됨.</lable>
-<br />
+<label >※ TOBE영문코드명,TOBE한글코드명, ASIS코드영문명 들로 LIKE 조회됨.</lable>
+<br /><%=resultMessage %>
 <br />
 		<table width="80%" border="1" cellpadding="4" cellspacing ="0" style="border-collapse:collapse;">
 		<%
@@ -67,12 +66,12 @@ if(!StringUtils.isEmpty(request.getParameter("INPUT"))
 			<td bgcolor="yellow"><strong>TOBE코드한글명</strong></td> 
 			<td bgcolor="yellow"><strong>TOBE유효값</strong></td>     	
 			<td bgcolor="yellow"><strong>TOBE유효값명</strong></td>   
-			<td bgcolor="yellow"><strong>ASIS코드한글</strong></td>  	
+			<!--<td bgcolor="yellow"><strong>ASIS코드한글</strong></td>-->  	
 			<td bgcolor="yellow"><strong>ASIS코드명</strong></td> 
 			<td bgcolor="yellow"><strong>ASIS유효값</strong></td>   	
 			<td bgcolor="yellow"><strong>ASIS유효명</strong></td>
-			<td bgcolor="yellow"><strong>TOBE비고</strong></td>
-			<td bgcolor="yellow"><strong>ASIS비고</strong></td>
+			<!-- <td bgcolor="yellow"><strong>TOBE비고</strong></td> -->
+			<td bgcolor="yellow"><strong>비고</strong></td>
 			<td bgcolor="yellow"><strong>업무담당자</strong></td>
 		</tr>	   
 		<% 	
@@ -87,12 +86,12 @@ if(!StringUtils.isEmpty(request.getParameter("INPUT"))
 				<td><%=resultRs.get(i, "TOBE코드명")%></td>  <!- tobe코드명  ->
 				<td><%=resultRs.get(i, "TOBE코드값")%></td>     <!- tobe유효값        ->
 				<td><%=resultRs.get(i, "TOBE설명")%></td>   <!- tobe유효값명    ->				
-				<td><%=resultRs.get(i, "ASIS한글컬럼명")%></td>    <!- asis코드한글  ->
+				<!-- <td><%=resultRs.get(i, "ASIS한글컬럼명")%></td> -->     <!- asis코드한글  ->
 				<td><%=resultRs.get(i, "ASIS영문컬럼명")%></td>   <!- asis코드명       ->
 				<td><%=resultRs.get(i, "ASIS코드값")%></td>    <!- asis유효값    ->
 				<td><%=resultRs.get(i, "ASIS설명")%></td>    <!- asis유효값명    ->
-				<td><%=resultRs.get(i, "TOBE비고")%></td>  <!- TOBE비고     ->
-				<td><%=resultRs.get(i, "ASIS비고")%></td>    <!-ASIS 비고   ->
+				<!--<td><%=resultRs.get(i, "TOBE비고")%></td>-->  <!- TOBE비고     ->
+				<td><%=resultRs.get(i, "비고")%></td>    <!-ASIS 비고   ->
 				<td><%=resultRs.get(i, "업무담당자")%></td>    <!-업무담당자->
 			</tr>
 			<%	
@@ -100,7 +99,7 @@ if(!StringUtils.isEmpty(request.getParameter("INPUT"))
 
 %>
 		</table>
-		<%=resultMessage %>
+		
 	</form>
 </body>
 </html>
