@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.ValidSqlMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+	/* IO:mm.repository.mapper.ValidSqlMapper.S001 */
+	SELECT COL_MAP_ID  AS MAP_ID
+	     , TOBE_TBL_NAME AS T_ENG_TABLE_NAME
+	     , TOBE_TBL_KOR_NAME  AS T_KOR_TABLE_NAME
+	     , ASIS_TBL_NAME      AS A_ENG_TABLE_NAME
+	     , ASIS_TBL_KOR_NAME  AS A_KOR_TABLE_NAME
+	FROM  SMETA_MAP_COL
+	WHERE TOBE_TBL_NAME = '${TABLE_NAME}'
+	AND (   '%' IN (${MAP_ID})
+	     OR COL_MAP_ID IN (${MAP_ID}))
+	AND TOBE_TBL_NAME IS NOT NULL
+	AND TOBE_TBL_KOR_NAME IS NOT NULL
+	AND ASIS_TBL_NAME IS NOT NULL
+	AND ASIS_TBL_KOR_NAME IS NOT NULL
+	GROUP BY COL_MAP_ID,TOBE_TBL_NAME,TOBE_TBL_KOR_NAME,ASIS_TBL_NAME,ASIS_TBL_KOR_NAME
+	ORDER BY COL_MAP_ID
+ ]]>
+	</select>
+	
+	<select id="S002" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+	    /* IO:mm.repository.mapper.ValidSqlMapper.S002 */
+		SELECT T_ENG_TABLE_NAME
+      , T_KOR_TABLE_NAME 
+      , CASE WHEN ROWNUM = 1 THEN REPLACE(T_ENG_COLUMN_NAME,',',' ') ||' /*'||T_KOR_COLUMN_NAME ||'*/'
+                             ELSE T_ENG_COLUMN_NAME ||' /* '||T_KOR_COLUMN_NAME||'*/'
+                             END AS T_ENG_COLUMN_NAME 
+      , A_ENG_TABLE_NAME
+      , CASE WHEN ROWNUM = 1 THEN  REPLACE(A_ENG_COLUMN_NAME,',',' ') ||' /* '||A_KOR_COLUMN_NAME  ||'*/' 
+                             ELSE A_ENG_COLUMN_NAME ||' /* '||A_KOR_COLUMN_NAME ||'*/ ' 
+                             END AS A_ENG_COLUMN_NAME 
+      , T_NAME   
+      , A_KOR_TABLE_NAME     
+      , MOVE_DEFAULT
+      , MOVE_RULE
+   FROM (SELECT  TOBE_TBL_NAME  AS T_ENG_TABLE_NAME
+               , TOBE_TBL_KOR_NAME  AS T_KOR_TABLE_NAME
+               , ', '||TOBE_COL_NAME  AS T_ENG_COLUMN_NAME
+               , TOBE_COL_KOR_NAME    AS T_KOR_COLUMN_NAME
+               , 'ASISUSR.'||ASIS_TBL_NAME ||' @DB_LINK' AS A_ENG_TABLE_NAME
+               , CASE WHEN TOBE_COL_DAT_TP_NAME  = 'DATE' AND ASIS_COL_DAT_TP_NAME  <> 'TIMESTAMP' THEN ', TO_DATE('||ASIS_COL_NAME ||') AS '|| ASIS_COL_NAME  
+                      WHEN TOBE_COL_DAT_TP_NAME  = 'DATE' AND ASIS_COL_DAT_TP_NAME   = 'TIMESTAMP' THEN ', TO_DATE(TO_CHAR('||ASIS_COL_NAME ||',''YYYYMMDD'')) AS '||ASIS_COL_NAME  
+                      ELSE ', '||ASIS_COL_NAME  END AS A_ENG_COLUMN_NAME
+               , ASIS_COL_KOR_NAME   AS A_KOR_COLUMN_NAME
+               , TOBE_TBL_NAME  AS T_NAME
+               , ASIS_TBL_KOR_NAME  AS A_KOR_TABLE_NAME
+               , DTLT_VAL   AS MOVE_DEFAULT
+               , MIG_RULE_CN  AS MOVE_RULE
+        FROM     SMETA_MAP_COL
+        WHERE    COL_MAP_ID  = '${MAP_ID}'
+        AND      ASIS_COL_NAME  IS NOT NULL
+        AND      TOBE_COL_NAME  NOT IN ( 'INP_USR_ID','INP_DTHMS','MDF_USR_ID','MDF_DTHMS' )
+        ORDER BY MAP_SEQ 
+        )]]>
+	</select>
+	
+</mapper>
