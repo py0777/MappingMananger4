@@ -6,12 +6,16 @@
 	<!-- 외부 프로퍼티 파일 로드및 공통 프로퍼티 정의 -->
 	<properties resource="mybatis.properties">
 	<!--properties url="file:d:\mybatis.properties"-->
-	  
+	  <!--  mysql 설정
 	  <property name="jdbc.driver" value="com.mysql.jdbc.Driver" />
 	  <property name="jdbc.username" value="root"/>
 	  <property name="jdbc.password" value="1111"/>
+	</properties> -->
+	<!--  oracle 설정-->
+	  <property name="jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
+	    <property name="jdbc.username" value="IMCUSR"/>
+	    <property name="jdbc.password" value="1"/>
 	</properties>
-
 	<!-- 마이바티스의 작동 규칙정의 -->
 	<settings>
 		<setting name="cacheEnabled" value="false" />
@@ -70,5 +74,6 @@
 		<mapper resource="mm/repository/mapper/SqlTranInqMapper.xml" />
 		<mapper resource="mm/repository/mapper/CodeMapper.xml" />
 		<mapper resource="mm/repository/mapper/ColMapper.xml" />
+		<mapper resource="mm/repository/mapper/ValidSqlMapper.xml" />
 	</mappers>
 </configuration>
