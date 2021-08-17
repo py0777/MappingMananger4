@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form action="MappingManager.jsp" method="POST">
+<form action="index.jsp" method="POST">
 <input type="submit" name = "sqlTran"  value ="SQL_TRAN" >
 <input type="submit" name = "sqlTran"  value ="CODE_MAPPING" >
 <input type="submit" name = "sqlTran"  value ="COL_MAPPING" >

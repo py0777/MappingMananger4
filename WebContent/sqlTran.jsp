@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SQL TRAN</title>
-<script type="text/javascript">
+<script language="Javascript" type="text/javascript">		
 	function allChk(obj){
 		var chkObj = document.getElementsByName("cb");
 		  var rowCnt = chkObj.length -1;
@@ -98,20 +98,18 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 <label for="commentYn"></label><input type="checkbox" name="commentYn" value="Y" <%if("Y".equals(request.getParameter("commentYn"))){%>checked <%}%> >컬럼주석달기       </lable>
 
 <label for="sqlFormatYn"></label><input type="checkbox" name="sqlFormatYn" value="Y" <%if( "Y".equals(request.getParameter("sqlFormatYn"))){%>checked <%}%> >SQL포멧맞추기</lable>
-
 <input type="submit" value="변환" <% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ resultMessage ="";}%> >
-<br />
 
 <br />
-<TEXTAREA name="asisSql" rows="20" style="WIDTH: 46%">
-<% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ %><%= "" %>
-<% }else{ %><%=request.getParameter("asisSql")%>
-<% } %>
-</textarea> 
-<TEXTAREA name="tobeSql" rows="20" style="WIDTH: 46%">
-<%=result%>
-</textarea>
-<br />
+			<TEXTAREA  name="asisSql" rows="20" style="WIDTH: 46%">
+			<% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ %><%= "" %>
+			<% }else{ %><%=request.getParameter("asisSql")%>
+			<% } %>
+			</textarea> 
+	    	<TEXTAREA  name="tobeSql" rows="20" style="WIDTH: 46%">
+			<%=result%>
+			</textarea>
+<p >
 <%=resultMessage %>
 <br /><h4><font color ="blue"><strong >※ SQL변환은 테이블 매핑이 1:1인 경우 정확하고,- 1:N, N:1인 경우 정확하지 않을수 있습니다. 아래 조회된 대상 테이블 중 불필요 테이블은 선택해지 후 다시 조회해보세요.</strong></font></h4>
 <table width="99%" border="1" cellpadding="4" cellspacing ="0" style="border-collapse:collapse;">
