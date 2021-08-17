@@ -29,7 +29,7 @@ SELECT *
               , NVL(ASIS_COL_PK_YN_NAME  ,'NULL')      AS A_PK              
               , NVL(DTLT_VAL             ,'NULL')      AS MOVE_DEFAULT      
               , NVL(MIG_RULE_CN          ,'NULL')      AS MOVE_RULE         
-              , NVL(CND_SQL_CN           ,'NULL')      AS MOVE_SQL                  
+              , NVL(DBMS_LOB.SUBSTR(CND_SQL_CN ,2000,1),'NULL')       AS MOVE_SQL                  
               , NVL(LAST_MOD_DT_NAME     ,'NULL')      AS ALT_DT            
               , NVL(CHRGR1_NAME          ,'NULL')      AS 업무담당자        
               , CHRGR2_NAME            AS CLIENT_OWNER
