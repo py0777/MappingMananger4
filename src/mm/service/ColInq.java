@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 	public class ColInq extends AbstractRepository {
 
-	static Logger logger = Logger.getLogger(SqlTranInq.class);
+	static Logger logger = Logger.getLogger(ColInq.class);
 	private final String namespace = "mm.repository.mapper.ColMapper";
 
 	public IDataSet s001(IDataSet requestData) {
@@ -47,7 +47,7 @@ import org.apache.log4j.Logger;
 		logger.debug("###########  START #########");
 		logger.debug(getClass().getName());
 		
-		logger.debug(requestData.getField("INPUT"));
+		logger.info(requestData.getField("INPUT"));
 				
 		/*************************************************************
 		 *  Declare Var
@@ -85,10 +85,10 @@ import org.apache.log4j.Logger;
 				requestData.putField("IN_TCOL", "%");
 			}
 			/*입력값 null 체크*/
-			if(		"%".equals(requestData.getField("IN_TBL"))
-				&&  "%".equals(requestData.getField("IN_COL"))
-				&&  "%".equals(requestData.getField("IN_TBL"))
-				&&  "%".equals(requestData.getField("IN_COL")))
+			if(		"%".equals(requestData.getField("IN_TTBL"))
+				&&  "%".equals(requestData.getField("IN_TCOL"))
+				&&  "%".equals(requestData.getField("IN_ATBL"))
+				&&  "%".equals(requestData.getField("IN_ACOL")))
 			{
 				rtnMsg = "테이블 또는 컬럼을 입력하세요.";
 				responseData.putField("rtnMsg", today + " " + rtnMsg);
@@ -104,6 +104,7 @@ import org.apache.log4j.Logger;
 			
 			if(rsCol.getRecordCount() == 0)
 			{
+				logger.info("조회내역이 없습니다."+ requestData.getField("INPUT") );
 				rtnMsg = "조회내역이 없습니다.";
 				responseData.putField("rtnMsg", today + " " + rtnMsg);				
 				return responseData;
@@ -154,14 +155,13 @@ import org.apache.log4j.Logger;
 			responseData.putRecordSet("rsCol", rsCol);
 			
 			responseData.putField("rsTblCnt", rsTbl.getRecordCount());
+			rtnMsg = "조회완료되었습니다.";
+			responseData.putField("rtnMsg", today + " " + rtnMsg);
+			responseData.setOkResultMessage("OK", new String[]{"조회완료되었습니다."});
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		rtnMsg = "조회완료되었습니다.";
-		responseData.putField("rtnMsg", today + " " + rtnMsg);
-		responseData.setOkResultMessage("OK", new String[]{"조회완료되었습니다."});
 		
 		return responseData;	
 	}

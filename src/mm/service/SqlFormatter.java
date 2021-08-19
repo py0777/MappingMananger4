@@ -56,11 +56,13 @@ public class SqlFormatter extends AbstractRepository {
       SQLBeautifier sbf = new SQLBeautifier();
       resultSql = SQLBeautifier.beautify(query.toUpperCase());
       dataSet.putField("RESULT", resultSql);
+      
+      rtnMsg = "조회 완료되었습니다.";
+      dataSet.putField("rtnMsg", String.valueOf(today) + " " + rtnMsg);
     } catch (Exception e) {
       e.printStackTrace();
     } 
-    rtnMsg = "조회 완료되었습니다.";
-    dataSet.putField("rtnMsg", String.valueOf(today) + " " + rtnMsg);
+    
     return (IDataSet)dataSet;
   }
 }

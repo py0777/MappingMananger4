@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="user/css/user.css" />
 <title>MappingManager</title>
 <% String pageNum = "1"; %>
 </head>

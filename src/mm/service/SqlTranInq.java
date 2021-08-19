@@ -181,7 +181,7 @@ public class SqlTranInq extends AbstractRepository {
       for (k = 0; k < recordSet2.getRecordCount(); k++) {
         s_asisTbl = recordSet2.getRecord(k).get("TBL").trim();
         for (int m = 0; m < tmp.length; m++) {
-          if (StringUtils.equals(tmp[m], s_asisTbl) && !StringUtils.equals(tmp[m], "SY"))
+          if (StringUtils.equals(tmp[m], s_asisTbl))
             tmp[m] = tmp[m].replaceAll(s_asisTbl, recordSet2.getRecord(k).get("ATBL").concat("  /*")
                 .concat(recordSet2.getRecord(k).get("ATBLNM")).concat("*/")); 
         } 
@@ -191,23 +191,26 @@ public class SqlTranInq extends AbstractRepository {
       SQLBeautifier sbf = new SQLBeautifier();
       dataSet.putField("QUERY", "");
       if ("Y".equals(requestData.getField("SQLFORMAT_YN"))) {
-        dataSet.putField("RESULT", SQLBeautifier.beautify(String.valueOf(sb)));
+        dataSet.putField("RESULT", SQLBeautifier.beautify(String.valueOf(sb)).trim());
       } else {
-        dataSet.putField("RESULT", String.valueOf(sb));
+        dataSet.putField("RESULT", String.valueOf(sb).trim());
       } 
       dataSet.putField("rsCnt", recordSet1.getRecordCount());
       dataSet.putField("rsTblCnt", recordSet2.getRecordCount());
       dataSet.putRecordSet("rsTblRtn", (IRecordSet)recordSet2);
       dataSet.putRecordSet("rsRtn", (IRecordSet)recordSet1);
+      
+      if (recordSet2.getRecordCount() == 0) {
+          rtnMsg = "입력한 테이블이 존재하지 않습니다.";
+        } else {
+          rtnMsg = "조회 완료되었습니다.";
+        }
+      dataSet.putField("rtnMsg", String.valueOf(today) + " " + rtnMsg);
+      
     } catch (Exception e) {
       e.printStackTrace();
-    } 
-    if (recordSet2.getRecordCount() == 0) {
-        rtnMsg = "입력한 테이블이 존재하지 않습니다.";
-      } else {
-        rtnMsg = "조회 완료되었습니다.";
-      }
-    dataSet.putField("rtnMsg", String.valueOf(today) + " " + rtnMsg);
+    }
+    
     dataSet.setOkResultMessage("NCOM0000", null);
     return (IDataSet)dataSet;
   }

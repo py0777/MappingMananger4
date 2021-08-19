@@ -28,6 +28,19 @@
 			  }
 		  }	
 	}
+	
+	/*변환SQL 복사*/
+	function OnClickBtncopy(obj) {
+		var text = document.getElementById("tobeSql").value
+		var t = document.createElement("textarea");
+		  document.body.appendChild(t);
+		  t.value = text;
+		  t.select();
+		  document.execCommand("copy");
+		  document.body.removeChild(t);
+	}
+
+	
   
 </script>
 </head>
@@ -99,16 +112,16 @@ if(!StringUtils.isEmpty(request.getParameter("asisSql"))){
 
 <label for="sqlFormatYn"></label><input type="checkbox" name="sqlFormatYn" value="Y" <%if( "Y".equals(request.getParameter("sqlFormatYn"))){%>checked <%}%> >SQL포멧맞추기</lable>
 <input type="submit" value="변환" <% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ resultMessage ="";}%> >
-
+<button id="btn-copy" onclick="OnClickBtncopy(this);" style="position:relative; left:50%"> 변환SQL 복사</button>
 <br />
-			<TEXTAREA  name="asisSql" rows="20" style="WIDTH: 46%">
-			<% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ %><%= "" %>
-			<% }else{ %><%=request.getParameter("asisSql")%>
-			<% } %>
-			</textarea> 
-	    	<TEXTAREA  name="tobeSql" rows="20" style="WIDTH: 46%">
-			<%=result%>
-			</textarea>
+	<TEXTAREA  name="asisSql" id ="asisSql" rows="20" style="WIDTH: 46%">
+		<% if (StringUtils.isEmpty(request.getParameter("asisSql"))){ %><%= "" %>
+		<% }else{ %><%=request.getParameter("asisSql").trim()%>
+		<% } %>
+	</textarea> 
+	<TEXTAREA  name="tobeSql" id ="tobeSql" rows="20" style="WIDTH: 46%">
+	<%=result%>
+	</textarea>
 <p >
 <%=resultMessage %>
 <br /><h4><font color ="blue"><strong >※ SQL변환은 테이블 매핑이 1:1인 경우 정확하고,- 1:N, N:1인 경우 정확하지 않을수 있습니다. 아래 조회된 대상 테이블 중 불필요 테이블은 선택해지 후 다시 조회해보세요.</strong></font></h4>
