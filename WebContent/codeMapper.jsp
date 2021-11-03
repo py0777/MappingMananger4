@@ -47,7 +47,7 @@ if(!StringUtils.isEmpty(request.getParameter("INPUT"))
 	<input type=radio name="INQ_CON" value="1" <%if("1".equals(request.getParameter("INQ_CON"))  || StringUtils.isEmpty(request.getParameter("INQ_CON"))){%>checked<%}%>/>TOBE영문명
 	<input type=radio name="INQ_CON" value="2" <%if("2".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />TOBE한글명
 	<input type=radio name="INQ_CON" value="3" <%if("3".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS영문명
-	<!-- <input type=radio name="INQ_CON" value="4" <%if("4".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS한글명 -->
+	<input type=radio name="INQ_CON" value="4" <%if("4".equals(request.getParameter("INQ_CON"))){%>checked<%}%> />ASIS한글명
 </p>
 <label ><strong>INPUT  : </strong></lable>
 <input name ="INPUT" type ="text" value =<%=request.getParameter("INPUT")%>>

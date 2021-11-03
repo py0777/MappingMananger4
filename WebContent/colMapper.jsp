@@ -29,10 +29,10 @@ if(		!"null".equals(StringUtils.nvl(request.getParameter("IN_TTBL"), "null"))
 	
 	IDataSet requestData = new DataSet();
 	
-	requestData.putField("IN_TTBL", request.getParameter("IN_TTBL").toUpperCase());
-	requestData.putField("IN_TCOL", request.getParameter("IN_TCOL").toUpperCase());
-	requestData.putField("IN_ATBL", request.getParameter("IN_ATBL").toUpperCase());
-	requestData.putField("IN_ACOL", request.getParameter("IN_ACOL").toUpperCase());
+	requestData.putField("IN_TTBL", request.getParameter("IN_TTBL").trim().toUpperCase());
+	requestData.putField("IN_TCOL", request.getParameter("IN_TCOL").trim().toUpperCase());
+	requestData.putField("IN_ATBL", request.getParameter("IN_ATBL").trim().toUpperCase());
+	requestData.putField("IN_ACOL", request.getParameter("IN_ACOL").trim().toUpperCase());
 	//requestData.putField("INQ_CON", request.getParameter("INQ_CON"));
 	
 	ColInq coli = new ColInq();

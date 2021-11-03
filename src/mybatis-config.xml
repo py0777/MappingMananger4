@@ -75,5 +75,6 @@
 		<mapper resource="mm/repository/mapper/CodeMapper.xml" />
 		<mapper resource="mm/repository/mapper/ColMapper.xml" />
 		<mapper resource="mm/repository/mapper/ValidSqlMapper.xml" />
+		<mapper resource="mm/repository/mapper/DefaultSqlMapper.xml" />
 	</mappers>
 </configuration>

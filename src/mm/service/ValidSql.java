@@ -148,7 +148,7 @@ public class ValidSql extends AbstractRepository {
         } 
       } 
       logger.debug("rsTblRtn : " + recordSet);
-      SQLBeautifier sbf = new SQLBeautifier();
+      
       dataSet.putField("RESULT", SQLBeautifier.beautify(String.valueOf(sb)));
       dataSet.putField("rsTblCnt", recordSet.getRecordCount());
       dataSet.putRecordSet("rsTblRtn", (IRecordSet)recordSet);

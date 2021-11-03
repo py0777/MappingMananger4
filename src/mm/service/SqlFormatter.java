@@ -3,14 +3,16 @@ package mm.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+
 import mm.common.RecordSetResultHandler;
 import mm.repository.AbstractRepository;
 import nexcore.framework.core.data.DataSet;
 import nexcore.framework.core.data.IDataSet;
 import nexcore.framework.core.data.IRecordSet;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
 import py0777.orasql.SQLBeautifier;
 
 public class SqlFormatter extends AbstractRepository {
@@ -53,8 +55,11 @@ public class SqlFormatter extends AbstractRepository {
       camelYn = requestData.getField("CAMEL_YN");
       logger.debug(query);
       String resultSql = null;
-      SQLBeautifier sbf = new SQLBeautifier();
+      //SQLBeautifier sbf = new SQLBeautifier();
+      
+//      resultSql = JSQLFormatter.format(query.toUpperCase());
       resultSql = SQLBeautifier.beautify(query.toUpperCase());
+      
       dataSet.putField("RESULT", resultSql);
       
       rtnMsg = "조회 완료되었습니다.";

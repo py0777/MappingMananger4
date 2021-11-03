@@ -3,6 +3,11 @@ package mm.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+
 import mm.common.RecordSetResultHandler;
 import mm.repository.AbstractRepository;
 import nexcore.framework.core.data.DataSet;
@@ -10,9 +15,6 @@ import nexcore.framework.core.data.IDataSet;
 import nexcore.framework.core.data.IRecordSet;
 import nexcore.framework.core.data.RecordSet;
 import nexcore.framework.core.util.StringUtils;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
 import py0777.orasql.SQLBeautifier;
 
 public class SqlTranInq extends AbstractRepository {
@@ -155,8 +157,7 @@ public class SqlTranInq extends AbstractRepository {
         s_tobeColNm = rsCol.getRecord(k).get("ACOLNM");
         
         for (int m = 0; m < tmp.length; m++) {
-          if (!StringUtils.isEmpty(s_asisCol) && 
-            !StringUtils.isEmpty(s_tobeCol))
+          if (!StringUtils.isEmpty(s_asisCol) && !StringUtils.isEmpty(s_tobeCol))
             if (StringUtils.equals(tmp[m], s_asisCol)) {
               
               logger.debug(s_asisCol);
@@ -164,8 +165,7 @@ public class SqlTranInq extends AbstractRepository {
               logger.debug(rsCol.getRecord(k).get("ATBL"));
               tmp[m] = tmp[m].replaceAll(s_asisCol, s_tobeCol);
               if ("Y".equals(requestData.getField("COMMENT_YN")))
-                tmp[m] = tmp[m].concat("/*").concat(s_tobeColNm)
-                  .concat("*/"); 
+                tmp[m] = tmp[m].concat("/*").concat(s_tobeColNm).concat("*/"); 
               recordSet1.addRecord(rsCol.getRecord(k));
               if (!s_tobeTbl.equals(rsCol.getRecord(k).get("ATBL"))) {
                 recordSet3.addRecord(rsCol.getRecord(k));
@@ -189,9 +189,11 @@ public class SqlTranInq extends AbstractRepository {
       for (int u = 0; u < tmp.length; u++)
         sb.append(tmp[u]); 
       SQLBeautifier sbf = new SQLBeautifier();
+      
       dataSet.putField("QUERY", "");
       if ("Y".equals(requestData.getField("SQLFORMAT_YN"))) {
         dataSet.putField("RESULT", SQLBeautifier.beautify(String.valueOf(sb)).trim());
+        
       } else {
         dataSet.putField("RESULT", String.valueOf(sb).trim());
       } 
