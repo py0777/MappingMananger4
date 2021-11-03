@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.ColMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="1000" ><![CDATA[		
+SELECT *
+  FROM (
+        SELECT TO_NUMBER(MAP_SEQ )                     AS MAP_SORT
+              , COL_MAP_ID                             AS MAP_ID                   
+              , NVL(TOBE_TBL_NAME        ,'NULL')      AS T_ENG_TABLE_NAME  
+              , NVL(TOBE_TBL_KOR_NAME    ,'NULL')      AS T_KOR_TABLE_NAME  
+              , NVL(TOBE_COL_NAME        ,'NULL')      AS T_ENG_COLUMN_NAME 
+              , NVL(TOBE_COL_KOR_NAME    ,'NULL')      AS T_KOR_COLUMN_NAME 
+              , NVL(TOBE_COL_DAT_TP_NAME ,'NULL')      AS T_DATA_TYPE       
+              , NVL(TOBE_COL_DAT_LEN     ,'NULL')      AS T_LENGTH1         
+              , NVL(TOBE_COL_DAT_DCML_LEN,'NULL')      AS T_LENGTH2         
+              , NVL(TOBE_COL_PK_YN_NAME  ,'NULL')      AS T_PK              
+              , NVL(ASIS_SID_NAME        ,'NULL')      AS A_SYSTEM_NAME     
+              , NVL(ASIS_OWN_NAME        ,'NULL')      AS A_OWNER           
+              , NVL(ASIS_TBL_NAME        ,'NULL')      AS A_ENG_TABLE_NAME  
+              , NVL(ASIS_TBL_KOR_NAME    ,'NULL')      AS A_KOR_TABLE_NAME  
+              , NVL(ASIS_COL_NAME        ,'NULL')      AS A_ENG_COLUMN_NAME 
+              , NVL(ASIS_COL_KOR_NAME    ,'NULL')      AS A_KOR_COLUMN_NAME 
+              , NVL(ASIS_COL_DAT_TP_NAME ,'NULL')      AS A_DATA_TYPE       
+              , NVL(ASIS_COL_DAT_LEN     ,'NULL')      AS A_LENGTH1         
+              , NVL(ASIS_COL_DAT_DCML_LEN,'NULL')      AS A_LENGTH2         
+              , NVL(ASIS_COL_PK_YN_NAME  ,'NULL')      AS A_PK              
+              , NVL(DTLT_VAL             ,'NULL')      AS MOVE_DEFAULT      
+              , NVL(MIG_RULE_CN          ,'NULL')      AS MOVE_RULE         
+              , NVL(DBMS_LOB.SUBSTR(CND_SQL_CN ,2000,1),'NULL')       AS MOVE_SQL                  
+              , NVL(LAST_MOD_DT_NAME     ,'NULL')      AS ALT_DT            
+              , NVL(CHRGR1_NAME          ,'NULL')      AS 업무담당자        
+              , CHRGR2_NAME            AS CLIENT_OWNER
+              , CHRGR3_NAME            AS  MOVE_OWNER
+         FROM  SMETA_MAP_COL
+         WHERE 1=1
+           AND TOBE_TBL_NAME  = (
+                                       CASE
+                                         WHEN '${IN_TTBL}'='%' THEN TOBE_TBL_NAME 
+                                         ELSE '${IN_TTBL}'
+                                       END)
+           AND TOBE_COL_NAME  = (
+                                       CASE
+                                         WHEN '${IN_TCOL}'='%' THEN TOBE_COL_NAME 
+                                         ELSE '${IN_TCOL}'
+                                       END)
+        
+           AND ASIS_TBL_NAME  = (
+                                       CASE
+                                         WHEN '${IN_ATBL}'='%' THEN ASIS_TBL_NAME 
+                                         ELSE '${IN_ATBL}'
+                                       END)
+           AND ASIS_COL_NAME  = (
+                                       CASE
+                                         WHEN '${IN_ACOL}'='%' THEN ASIS_COL_NAME 
+                                         ELSE '${IN_ACOL}'
+                                       END) 
+        )  A
+ORDER BY 2, 1 
+]]>
+	</select>
+</mapper>

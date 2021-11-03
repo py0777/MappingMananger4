@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.ValidSqlMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+	/* IO:mm.repository.mapper.ValidSqlMapper.S001 */
+	SELECT T_MAP_ID  AS MAP_ID
+	     , T_테이블영문명       AS T_ENG_TABLE_NAME
+	     , T_테이블한글명        AS T_KOR_TABLE_NAME
+	     , T_컬럼영문명             AS A_ENG_TABLE_NAME
+	     , T_컬럼한글명         AS A_KOR_TABLE_NAME
+	FROM  신구컬럼매핑
+	WHERE T_테이블영문명       = '${TABLE_NAME}'
+	AND (   '%' IN (${MAP_ID})
+	     OR T_MAP_ID IN (${MAP_ID}))
+	AND T_테이블영문명       IS NOT NULL
+	AND T_테이블한글명       IS NOT NULL
+	AND T_컬럼영문명        IS NOT NULL
+	AND T_컬럼한글명        IS NOT NULL
+	GROUP BY T_MAP_ID,T_테이블영문명      ,T_테이블한글명      ,T_컬럼영문명       ,T_컬럼한글명       
+	ORDER BY T_MAP_ID
+ ]]>
+	</select>
+	
+	<select id="S002" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+	    /* IO:mm.repository.mapper.ValidSqlMapper.S002 */
+		SELECT  T_ENG_TABLE_NAME
+      , T_KOR_TABLE_NAME 
+      , CASE WHEN ROWNUM = 1 THEN REPLACE(T_ENG_COLUMN_NAME,',',' ') ||' /*'||T_KOR_COLUMN_NAME ||'*/'
+                             ELSE T_ENG_COLUMN_NAME ||' /* '||T_KOR_COLUMN_NAME||'*/'
+                             END AS T_ENG_COLUMN_NAME 
+      , A_ENG_TABLE_NAME
+      , CASE WHEN ROWNUM = 1 THEN  REPLACE(A_ENG_COLUMN_NAME,',',' ') ||' /* '||A_KOR_COLUMN_NAME  ||'*/' 
+                             ELSE A_ENG_COLUMN_NAME ||' /* '||A_KOR_COLUMN_NAME ||'*/ ' 
+                             END AS A_ENG_COLUMN_NAME 
+      , T_NAME   
+      , A_KOR_TABLE_NAME     
+      , MOVE_DEFAULT
+      , MOVE_RULE
+   FROM (SELECT  T_테이블영문명  AS T_ENG_TABLE_NAME
+               , T_테이블한글명  AS T_KOR_TABLE_NAME
+               , ', '||T_컬럼영문명  AS T_ENG_COLUMN_NAME
+               , T_컬럼한글명    AS T_KOR_COLUMN_NAME
+               , 'ASISUSR.'||A_테이블영문명 ||' @DB_LINK' AS A_ENG_TABLE_NAME
+               , CASE WHEN T_DATATYPE  like '%DATE%' AND A_DATATYPE  <> 'TIMESTAMP' THEN ', TO_DATE('||A_컬럼영문명 ||') AS '|| A_컬럼영문명  
+                      WHEN T_DATATYPE  like '%DATE%' AND A_DATATYPE   = 'TIMESTAMP' THEN ', TO_DATE(TO_CHAR('||A_컬럼영문명 ||',''YYYYMMDD'')) AS '||A_컬럼영문명  
+                      ELSE ', '||A_컬럼영문명  END AS A_ENG_COLUMN_NAME
+               , A_컬럼한글명   AS A_KOR_COLUMN_NAME
+               , T_테이블영문명  AS T_NAME
+               , A_테이블한글명  AS A_KOR_TABLE_NAME
+               , T_디폴트값   AS MOVE_DEFAULT
+               , 컬럼매핑로직  AS MOVE_RULE
+        FROM     신구컬럼매핑
+        WHERE    T_MAP_ID       = '${MAP_ID}'
+        AND      A_컬럼영문명  IS NOT NULL
+        AND      T_컬럼영문명  NOT IN ( 'FST_REG_DTL_DTTI','FRST_RGPR_ENOB','FST_REG_BRNO','LT_CH_DTL_DTTI','LT_CHPR_ENOB','LT_CH_BRNO' )
+        ORDER BY T_컬럼순서 
+        )]]>
+	</select>
+	
+</mapper>

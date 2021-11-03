@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.ColMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="1000" ><![CDATA[		
+SELECT *
+  FROM (
+        SELECT TO_NUMBER(T_컬럼순서 )                     AS MAP_SORT
+              , T_MAP_ID                             AS MAP_ID                   
+              , NVL(T_테이블영문명        ,'NULL')      AS T_ENG_TABLE_NAME  
+              , NVL(T_테이블한글명    ,'NULL')      AS T_KOR_TABLE_NAME  
+              , NVL(T_컬럼영문명        ,'NULL')      AS T_ENG_COLUMN_NAME 
+              , NVL(T_컬럼한글명    ,'NULL')      AS T_KOR_COLUMN_NAME 
+              , NVL(T_DATATYPE  ,'NULL')      AS T_DATA_TYPE       
+              , NVL(T_DATATYPE     ,'NULL')      AS T_LENGTH1         
+              , NVL(T_DATATYPE,'NULL')      AS T_LENGTH2         
+              , NVL(T_PK여부  ,'NULL')      AS T_PK              
+              , NVL(A_스키마        ,'NULL')      AS A_SYSTEM_NAME     
+              , NVL(A_스키마        ,'NULL')      AS A_OWNER           
+              , NVL(A_테이블영문명        ,'NULL')      AS A_ENG_TABLE_NAME  
+              , NVL(A_테이블한글명    ,'NULL')      AS A_KOR_TABLE_NAME  
+              , NVL(A_컬럼영문명        ,'NULL')      AS A_ENG_COLUMN_NAME 
+              , NVL(A_컬럼한글명    ,'NULL')      AS A_KOR_COLUMN_NAME 
+              , NVL(A_DATATYPE  ,'NULL')      AS A_DATA_TYPE       
+              , NVL(A_DATATYPE      ,'NULL')      AS A_LENGTH1         
+              , NVL(A_DATATYPE ,'NULL')      AS A_LENGTH2         
+              , NVL(A_PK여부  ,'NULL')      AS A_PK              
+              , NVL(T_디폴트값             ,'NULL')      AS MOVE_DEFAULT      
+              , NVL(매핑유형          ,'NULL')      AS MOVE_RULE         
+              , NVL(DB컬럼매핑로직 ,'NULL')       AS MOVE_SQL                  
+              , NVL(최종등록일시     ,'NULL')      AS ALT_DT            
+              , NVL(CHRGR1_NAME          ,'NULL')      AS 업무담당자        
+              , 최초등록사용자ID            AS CLIENT_OWNER
+              , 최종등록사용자ID            AS  MOVE_OWNER
+         FROM  신구컬럼매핑
+         WHERE 1=1
+           AND T_테이블영문명  = (
+                                       CASE
+                                         WHEN '${IN_TTBL}'='%' THEN T_테이블영문명 
+                                         ELSE '${IN_TTBL}'
+                                       END)
+           AND T_컬럼영문명  = (
+                                       CASE
+                                         WHEN '${IN_TCOL}'='%' THEN T_컬럼영문명 
+                                         ELSE '${IN_TCOL}'
+                                       END)
+        
+           AND A_테이블영문명  = (
+                                       CASE
+                                         WHEN '${IN_ATBL}'='%' THEN A_테이블영문명 
+                                         ELSE '${IN_ATBL}'
+                                       END)
+           AND A_컬럼영문명  = (
+                                       CASE
+                                         WHEN '${IN_ACOL}'='%' THEN A_컬럼영문명 
+                                         ELSE '${IN_ACOL}'
+                                       END) 
+        )  A
+ORDER BY 2, 1 
+]]>
+	</select>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.SqlTranInqMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[		
+		select distinct
+        TOBE_TBL_NAME      as ATBL     /*TOBE테이블영문명*/
+      , TOBE_TBL_KOR_NAME  as ATBLNM   /*TOBE테이블한글명*/
+      , ASIS_TBL_NAME      as TBL      /*ASIS테이블영문명*/
+      , ASIS_TBL_KOR_NAME  as TBLNM    /*ASIS테이블한글명*/
+   from SMETA_MAP_COL
+  WHERE TOBE_TBL_NAME IS NOT NULL
+    AND ASIS_TBL_NAME IS NOT NULL
+    AND '2' = '${INQ_CON}'
+    UNION ALL
+    select distinct
+        ASIS_TBL_NAME      as ATBL     /*ASIS테이블영문명*/
+      , ASIS_TBL_KOR_NAME  as ATBLNM   /*ASIS테이블한글명*/
+      , TOBE_TBL_NAME      as TBL      /*TOBE테이블영문명*/
+      , TOBE_TBL_KOR_NAME  as TBLNM    /*TOBE테이블한글명*/
+   from SMETA_MAP_COL
+  WHERE TOBE_TBL_NAME IS NOT NULL
+    AND ASIS_TBL_NAME IS NOT NULL
+    AND '1' = '${INQ_CON}'
+    
+    ]]>
+	</select>
+	
+	<select id="S002" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+		/* IO:mm.repository.mapper.SqlTranInqMapper.S002 */
+		SELECT NVL(TOBE_TBL_NAME ,'NULL')   AS ATBL    /*TOBE테이블영문명*/
+      ,NVL(TOBE_TBL_KOR_NAME,'NULL')        AS ATBLNM  /*TOBE테이블한글명*/
+      ,NVL(TOBE_COL_NAME,'NULL')            AS ACOL    /*TOBE컬럼영문명*/
+      ,NVL(TOBE_COL_KOR_NAME,'NULL')        AS ACOLNM  /*TOBE컬럼한글명*/
+      ,NVL(ASIS_TBL_NAME,'NULL')            AS TBL     /*ASIS테이블영문명*/
+      ,NVL(ASIS_TBL_KOR_NAME,'NULL')        AS TBLNM   /*ASIS테이블한글명*/
+      ,NVL(ASIS_COL_NAME,'NULL')            AS COL     /*ASIS컬럼영문명*/
+      ,NVL(ASIS_COL_KOR_NAME,'NULL')        AS COLNM   /*ASIS컬럼한글명*/
+  FROM SMETA_MAP_COL
+ WHERE ASIS_TBL_NAME IN (${ASIS_TBL_LIST})
+   AND TOBE_TBL_NAME IN (${TOBE_TBL_LIST})
+   AND ASIS_COL_NAME IS NOT NULL
+   AND TOBE_COL_NAME IS NOT NULL
+   AND '2' = '${INQ_CON}'
+   UNION ALL
+   SELECT NVL(ASIS_TBL_NAME ,'NULL')        AS ATBL    /*TOBE테이블영문명*/
+      ,NVL(ASIS_TBL_KOR_NAME,'NULL')        AS ATBLNM  /*TOBE테이블한글명*/
+      ,NVL(ASIS_COL_NAME,'NULL')            AS ACOL    /*TOBE컬럼영문명*/
+      ,NVL(ASIS_COL_KOR_NAME,'NULL')        AS ACOLNM  /*TOBE컬럼한글명*/
+      ,NVL(TOBE_TBL_NAME,'NULL')            AS TBL     /*ASIS테이블영문명*/
+      ,NVL(TOBE_TBL_KOR_NAME,'NULL')        AS TBLNM   /*ASIS테이블한글명*/
+      ,NVL(TOBE_COL_NAME,'NULL')            AS COL     /*ASIS컬럼영문명*/
+      ,NVL(TOBE_COL_KOR_NAME,'NULL')        AS COLNM   /*ASIS컬럼한글명*/
+  FROM SMETA_MAP_COL
+ WHERE TOBE_TBL_NAME IN (${ASIS_TBL_LIST})
+   AND ASIS_TBL_NAME IN (${TOBE_TBL_LIST})
+   AND TOBE_COL_NAME IS NOT NULL
+   AND ASIS_COL_NAME IS NOT NULL
+   AND '1' = '${INQ_CON}'
+]]>
+	</select>
+	
+	<select id="S003" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+		/* IO:mm.repository.mapper.SqlTranInqMapper.S003 */
+SELECT  COUNT(*) AS CNT /*
+      , MAX(TOBE_COL_NAME) AS T_KOR_COLUMN_NAME /*TOBE
+  FROM SMETA_MAP_COL
+ WHERE TOBE_COL_NAME =  '${TOBE_COLUMN}']]>
+	</select>
+</mapper>

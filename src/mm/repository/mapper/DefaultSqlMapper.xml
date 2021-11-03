@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.DefaultSqlMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+	/* IO:mm.repository.mapper.DefaultSqlMapper.S001 */
+		SELECT T_ENG_TABLE_NAME
+	      , T_KOR_TABLE_NAME
+	      , T_ENG_COLUMN_NAME
+	      , T_KOR_COLUMN_NAME
+	      , PK
+	      , CAMEL_CASE
+	      , '#'||'{'||CAMEL_CASE||'}' AS MYBATIS
+	FROM (
+				SELECT  UPPER(T_ENG_TABLE_NAME)  AS T_ENG_TABLE_NAME
+				      , T_KOR_TABLE_NAME         AS T_KOR_TABLE_NAME
+				      , UPPER(T_ENG_COLUMN_NAME) AS T_ENG_COLUMN_NAME
+				      , T_KOR_COLUMN_NAME        AS T_KOR_COLUMN_NAME
+				      , UPPER(PK )               AS PK
+				      , LOWER(SUBSTR(REPLACE(INITCAP(LOWER(T_ENG_COLUMN_NAME)), '_'),1,1))
+				        ||SUBSTR(REPLACE(INITCAP(LOWER(T_ENG_COLUMN_NAME)), '_'),2)	        AS CAMEL_CASE
+				FROM (
+						    SELECT TOBE_TBL_NAME AS T_ENG_TABLE_NAME ,
+						           TOBE_TBL_KOR_NAME AS T_KOR_TABLE_NAME ,
+						           TOBE_COL_NAME AS T_ENG_COLUMN_NAME ,
+						           TOBE_COL_KOR_NAME AS T_KOR_COLUMN_NAME ,
+						           MAX(TOBE_COL_PK_YN_NAME) AS PK
+						      FROM SMETA_MAP_COL
+						     WHERE TOBE_TBL_NAME = '${TABLE_NAME}'
+						       AND TOBE_COL_NAME IS NOT NULL           
+						    GROUP BY TOBE_TBL_NAME, TOBE_TBL_KOR_NAME, TOBE_COL_NAME,  TOBE_COL_KOR_NAME
+						     ORDER BY min(MAP_SEQ )
+						 )
+				)		 
+ ]]>
+	</select>
+</mapper>

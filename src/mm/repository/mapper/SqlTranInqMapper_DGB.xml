@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.SqlTranInqMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[		
+		select distinct
+        T_테이블영문명  as ATBL     /*TOBE테이블영문명*/
+      , T_테이블한글명  as ATBLNM   /*TOBE테이블한글명*/
+      , A_테이블영문명  as TBL      /*ASIS테이블영문명*/
+      , A_테이블한글명  as TBLNM    /*ASIS테이블한글명*/
+   from 신구컬럼매핑
+  WHERE T_테이블영문명 IS NOT NULL
+    AND A_테이블영문명 IS NOT NULL
+    AND '2' = '${INQ_CON}'
+    UNION ALL
+    select distinct
+        A_테이블영문명  as ATBL     /*ASIS테이블영문명*/
+      , A_테이블한글명  as ATBLNM   /*ASIS테이블한글명*/
+      , T_테이블영문명  as TBL      /*TOBE테이블영문명*/
+      , T_테이블한글명  as TBLNM    /*TOBE테이블한글명*/
+   from 신구컬럼매핑
+  WHERE T_테이블영문명 IS NOT NULL
+    AND A_테이블영문명 IS NOT NULL
+    AND '1' = '${INQ_CON}'
+    
+    ]]>
+	</select>
+	
+	<select id="S002" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+		SELECT NVL(T_테이블영문명 ,'NULL')   AS ATBL    /*TOBE테이블영문명*/
+      ,NVL(T_테이블한글명,'NULL')        AS ATBLNM  /*TOBE테이블한글명*/
+      ,NVL(T_컬럼영문명,'NULL')            AS ACOL    /*TOBE컬럼영문명*/
+      ,NVL(T_컬럼한글명,'NULL')        AS ACOLNM  /*TOBE컬럼한글명*/
+      ,NVL(A_테이블영문명,'NULL')            AS TBL     /*ASIS테이블영문명*/
+      ,NVL(A_테이블한글명,'NULL')        AS TBLNM   /*ASIS테이블한글명*/
+      ,NVL(A_컬럼영문명,'NULL')            AS COL     /*ASIS컬럼영문명*/
+      ,NVL(A_컬럼한글명,'NULL')        AS COLNM   /*ASIS컬럼한글명*/
+  FROM 신구컬럼매핑
+ WHERE A_테이블영문명 IN (${ASIS_TBL_LIST})
+   AND T_테이블영문명 IN (${TOBE_TBL_LIST})
+   AND A_컬럼영문명 IS NOT NULL
+   AND T_컬럼영문명 IS NOT NULL
+   AND '2' = '${INQ_CON}'
+   UNION ALL
+   SELECT NVL(A_테이블영문명 ,'NULL')        AS ATBL    /*TOBE테이블영문명*/
+      ,NVL(A_테이블한글명,'NULL')        AS ATBLNM  /*TOBE테이블한글명*/
+      ,NVL(A_컬럼영문명,'NULL')            AS ACOL    /*TOBE컬럼영문명*/
+      ,NVL(A_컬럼한글명,'NULL')        AS ACOLNM  /*TOBE컬럼한글명*/
+      ,NVL(T_테이블영문명,'NULL')            AS TBL     /*ASIS테이블영문명*/
+      ,NVL(T_테이블한글명,'NULL')        AS TBLNM   /*ASIS테이블한글명*/
+      ,NVL(T_컬럼영문명,'NULL')            AS COL     /*ASIS컬럼영문명*/
+      ,NVL(T_컬럼한글명,'NULL')        AS COLNM   /*ASIS컬럼한글명*/
+  FROM 신구컬럼매핑
+ WHERE T_테이블영문명 IN (${ASIS_TBL_LIST})
+   AND A_테이블영문명 IN (${TOBE_TBL_LIST})
+   AND T_컬럼영문명 IS NOT NULL
+   AND A_컬럼영문명 IS NOT NULL
+   AND '1' = '${INQ_CON}'
+]]>
+	</select>
+	
+	<select id="S003" parameterType="map" resultType="java.util.HashMap" fetchSize="50" ><![CDATA[
+		/* IO:mm.repository.mapper.SqlTranInqMapper.S003 */
+SELECT  COUNT(*) AS CNT /*
+      , MAX(TOBE_COL_NAME) AS T_KOR_COLUMN_NAME /*TOBE
+  FROM SMETA_MAP_COL
+ WHERE TOBE_COL_NAME =  '${TOBE_COLUMN}']]>
+	</select>
+</mapper>

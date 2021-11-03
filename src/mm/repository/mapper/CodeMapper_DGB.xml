@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mm.repository.mapper.CodeMapper">
+
+	<select id="S001" parameterType="map" resultType="java.util.HashMap" ><![CDATA[
+
+SELECT distinct
+       T_스키마           순번,
+       T_도메인    업무영역,
+       T_테이블영문명   AS TOBE영문코드명,
+       NVL(T_컬럼영문명     ,'NULL')  TOBE코드명, 
+       NVL(T_유효값     , 'NULL ')    TOBE코드값, 
+       NVL(T_유효값명    ,'NULL')        TOBE설명, 
+       NVL(A_컬럼영문명   ,'NULL') ASIS영문컬럼명, 
+       NVL(A_유효값     ,'NULL')    ASIS코드값, 
+       NVL(A_유효값명    ,'NULL')     ASIS설명, 
+       NVL(비고        ,'NULL')     ASIS비고, 
+	   최초등록사용자ID  AS 업무담당자, 
+	   최종등록사용자ID  AS 고객담당자1, 
+	   최초등록사용자ID AS 이행담당자
+ FROM 신구코드매핑  A
+WHERE ((   ( '1' = '${INQ_CON}' AND T_컬럼영문명    LIKE '%'||'${INPUT}'||'%'))          
+       OR  ('2' = '${INQ_CON}' AND (T_컬럼한글명    LIKE '%'||'${INPUT}'||'%'))
+       OR  ('3' = '${INQ_CON}' AND (A_컬럼영문명      LIKE '%'||'${INPUT}'||'%'))
+       OR  ('4' = '${INQ_CON}' AND (A_컬럼한글명      LIKE '%'||'${INPUT}'||'%'))
+       )
+ORDER BY T_유효값
+]]>
+	</select>
+</mapper>
