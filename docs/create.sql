@@ -45,9 +45,7 @@ drop table IMCUSR.SMETA_MAP_CODE;
 CREATE TABLE IMCUSR.SMETA_MAP_CODE
 (
 CODE_MAP_ID                   VARCHAR2(20)   NOT NULL,
-DOM_NAME                      VARCHAR2(200),
-APP_GRP_NAME                  VARCHAR2(200),
-APP_NAME                      VARCHAR2(100),
+DOM_NAME                      VARCHAR2(100),
 TOBE_CODE_DOM_ENG_NAME        VARCHAR2(100)   NOT NULL,
 TOBE_CODE_DOM_KOR_NAME        VARCHAR2(200) ,
 TOBE_VALID_CODE_VAL           VARCHAR2(100)  NOT NULL,
@@ -59,12 +57,7 @@ SPCMNT_MATTER_CN              VARCHAR2(4000),
 LAST_MOD_DT_NAME              VARCHAR2(50)  ,
 CHRGR1_NAME                   VARCHAR2(200) ,
 CHRGR2_NAME                   VARCHAR2(200) ,
-CHRGR3_NAME                   VARCHAR2(200) ,
-CHRGR4_NAME                   VARCHAR2(200) ,
-REGR_IP                       VARCHAR2(50)  ,
-REQ_NO                        VARCHAR2(50)  ,
-REGR_ID                       VARCHAR2(50)  ,
-USR_NAME                      VARCHAR2(100) 
+CHRGR3_NAME                   VARCHAR2(200)  
 )
 TABLESPACE SYSTEM
 NOCOMPRESS;
