@@ -3,12 +3,7 @@ drop table IMCUSR.SMETA_MAP_COL;
 CREATE TABLE IMCUSR.SMETA_MAP_COL
 (
 COL_MAP_ID                    VARCHAR2(20)   NOT NULL,
-DOM_NAME                      VARCHAR2(200),
-APP_GRP_NAME                  VARCHAR2(200),
-APP_NAME                      VARCHAR2(100),
-MAP_NO                        VARCHAR2(100),
 MAP_SEQ                       NUMBER(10)    NOT NULL,
-TOBE_SID_NAME                 VARCHAR2(100),
 TOBE_OWN_NAME                 VARCHAR2(100),
 TOBE_TBL_NAME                 VARCHAR2(20)   NOT NULL,
 TOBE_TBL_KOR_NAME             VARCHAR2(200) ,
@@ -17,10 +12,7 @@ TOBE_COL_KOR_NAME             VARCHAR2(10)  ,
 TOBE_COL_DAT_TP_NAME          VARCHAR2(10)  ,
 TOBE_COL_DAT_LEN              VARCHAR2(10)  ,
 TOBE_COL_DAT_DCML_LEN         VARCHAR2(10)  ,
-TOBE_COL_NULL_PERM_TN_NAME    VARCHAR2(10)  ,
-TOBE_COL_PK_TN_NAME           VARCHAR2(10)  ,
-TOBE_COL_ENC_YN_NAME          VARCHAR2(10)  ,
-ASIS_SID_NAME                 VARCHAR2(100) ,
+TOBE_COL_PK_YN_NAME           VARCHAR2(10)  ,
 ASIS_OWN_NAME                 VARCHAR2(100) ,
 ASIS_TBL_NAME                 VARCHAR2(20)  ,
 ASIS_TBL_KOR_NAME             VARCHAR2(200) ,
@@ -29,28 +21,20 @@ ASIS_COL_KOR_NAME             VARCHAR2(10)  ,
 ASIS_COL_DAT_TP_NAME          VARCHAR2(10)  ,
 ASIS_COL_DAT_LEN              VARCHAR2(10)  ,
 ASIS_COL_DAT_DCML_LEN         VARCHAR2(10)  ,
-ASIS_COL_NULL_PERM_TN_NAME    VARCHAR2(10)  ,
-ASIS_COL_PK_TN_NAME           VARCHAR2(10)  ,
-ASIS_COL_ENC_YN_NAME          VARCHAR2(10)  ,
+ASIS_COL_PK_YN_NAME           VARCHAR2(10)  ,
 DTLT_VAL                      VARCHAR2(500) ,
 MIG_RULE_CN                   VARCHAR2(1000),
-CND_SQL_CN                    CLOB          ,
-SPCMNT_MATTER_CN              VARCHAR2(4000),
 LAST_MOD_DT_NAME              VARCHAR2(50)  ,
 CHRGR1_NAME                   VARCHAR2(200) ,
 CHRGR2_NAME                   VARCHAR2(200) ,
-CHRGR3_NAME                   VARCHAR2(200) ,
-CHRGR4_NAME                   VARCHAR2(200) ,
-REGR_IP                       VARCHAR2(50)  ,
-REQ_NO                        VARCHAR2(50)  ,
-REGR_ID                       VARCHAR2(50)  ,
-USR_NAME                      VARCHAR2(100) 
+CHRGR3_NAME                   VARCHAR2(200) 
 )
 TABLESPACE SYSTEM
 NOCOMPRESS;
 ALTER TABLE SMETA_MAP_COL
 ADD PRIMARY KEY(COL_MAP_ID,MAP_SEQ,TOBE_TBL_NAME );
 GRANT SELECT, INSERT, UPDATE, DELETE ON SMETA_MAP_COL TO IMCUSR;
+
 
 
 drop table IMCUSR.SMETA_MAP_CODE;
